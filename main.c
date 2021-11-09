@@ -61,9 +61,9 @@ int main(int argc, char** argv) {
 	// uint16_t packet_size = 1500; // max is your wifi, eth or loopback device's MTU.
 
 	// Create raw socket (requires root uid)
-	int s = socket(AF_INET, SOCK_RAW, IPPROTO_RAW);
+	int rawSocket = socket(AF_INET, SOCK_RAW, IPPROTO_RAW);
 	if(s == -1) {
-		perror("ERROR: failed to create socket\n");
+		perror("ERROR: failed to create raw socket\n");
 		return -1;
 	}
 
@@ -132,7 +132,7 @@ int main(int argc, char** argv) {
     // Send until SIGTERM with 1 second between datagrams
 	printf("Sending packets...\n");
 	for(;;) {
-		sendto(s, datagram, datagram_size, 0,(struct sockaddr*)&destaddr, sizeof(destaddr));
+		sendto(rawSocket, datagram, datagram_size, 0,(struct sockaddr*)&destaddr, sizeof(destaddr));
         sleep(1);
 	}
 }

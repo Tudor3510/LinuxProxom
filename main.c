@@ -62,7 +62,7 @@ int main(int argc, char** argv) {
 
 	// Create raw socket (requires root uid)
 	int rawSocket = socket(AF_INET, SOCK_RAW, IPPROTO_RAW);
-	if(s == -1) {
+	if(rawSocket == -1) {
 		perror("ERROR: failed to create raw socket\n");
 		return -1;
 	}

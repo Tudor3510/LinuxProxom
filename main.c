@@ -66,6 +66,13 @@ int main(int argc, char** argv) {
 		perror("ERROR: failed to create raw socket\n");
 		return -1;
 	}
+	
+	__int32_t broadcastOption = 1;
+	if (setsockopt(rawSocket, SOL_SOCKET, SO_BROADCAST, &broadcastOption, sizeof(broadcastOption)) == -1){
+		perror("ERROR: failed set the broadcast option to raw socket\n");
+		return -1;
+	}
+
 
     // Capture ctrl+c
     signal(SIGINT, signalCatch);
@@ -132,7 +139,8 @@ int main(int argc, char** argv) {
     // Send until SIGTERM with 1 second between datagrams
 	printf("Sending packets...\n");
 	for(;;) {
-		sendto(rawSocket, datagram, datagram_size, 0,(struct sockaddr*)&destaddr, sizeof(destaddr));
+	if (sendto(rawSocket, datagram, datagram_size, 0,(struct sockaddr*)&destaddr, sizeof(destaddr)) == -1)
+		perror("ERROR: failed send the datagram using the raw socket\n");
         sleep(1);
 	}
 }

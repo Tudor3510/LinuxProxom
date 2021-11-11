@@ -1,8 +1,6 @@
 #include "RawSocket.hpp"
 
-const char SERVER_MESSAGE[] = "Server~Open~1~";
-const uint8_t FIRST_SPECIAL_BYTE = 4;
-const uint8_t SECOND_SPECIAL_BYTE = 2;
+const char SERVER_MESSAGE[] = "\x04\x02Server~Open~1~";
 const uint16_t DESTINATION_PORT = 47777;
 const uint16_t SOURCE_PORT = 56947;
 
@@ -46,17 +44,12 @@ int main(int argc, char** argv) {
 
     signal(SIGINT, signalCatch);
 
-    char data[2 + strlen(SERVER_MESSAGE)];
-    data[0] = FIRST_SPECIAL_BYTE;
-    data[1] = SECOND_SPECIAL_BYTE;
-	memcpy(data + 2, SERVER_MESSAGE, strlen(SERVER_MESSAGE));
-	uint16_t datalen = strlen(SERVER_MESSAGE) + 2;
 
     RawSocket rawSocket;
     rawSocket.setBroadcastOption(BROADCAST_OPTION);
     rawSocket.setSource(argv[sourceIpNo], SOURCE_PORT);
     rawSocket.setDestination(argv[destIpNo], DESTINATION_PORT);
-    rawSocket.setData(data, datalen);
+    rawSocket.setData((char*)SERVER_MESSAGE, strlen(SERVER_MESSAGE));
 
 	printf("Sending packets...\n");
 	for(;;) {

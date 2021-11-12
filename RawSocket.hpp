@@ -38,6 +38,10 @@ class RawSocket{
                 perror("ERROR: failed to create raw socket\n");
                 exit(-1);
             }
+            
+            memset(&destaddr, 0, sizeof(destaddr));
+            memset(&ip_header, 0, sizeof(ip_header));
+            memset(&udp_header, 0, sizeof(udp_header));
 
             // IP Header
             ip_header.ip_hl = sizeof(struct ip) / 4; // Header length is size of header in 32bit words, always 5.

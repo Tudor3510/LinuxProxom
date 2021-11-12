@@ -39,6 +39,7 @@ class RawSocket{
                 exit(-1);
             }
             
+            //Making sure that the struct that will hold our datagram details are clear
             memset(&destaddr, 0, sizeof(destaddr));
             memset(&ip_header, 0, sizeof(ip_header));
             memset(&udp_header, 0, sizeof(udp_header));

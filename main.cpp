@@ -55,6 +55,8 @@ int main(int argc, char** argv) {
 	for(;;) {
         rawSocket.sendDatagram();
 	}
+	
+return 0;
 }
 
 void signalCatch(int socket) {
